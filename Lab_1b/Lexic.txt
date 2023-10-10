@@ -1,0 +1,36 @@
+Alphabet:
+	a. letters: A-Z and a-z
+	b. underline: '_'
+	c. digits: 0-9
+Lexic:
+	a. Symbols representing:
+		- operators: + - / * ** = == < > <= >=
+		- separators: ( ) [ ] { } , ; space
+		- reserved word: int string read write if elif else for exit max
+	b. Identifiers:
+		- sequence from Alphabet, such that first character is not a digit:
+		<letters> = A|B|...|Z|a|b|...|z
+		<underline> = _
+		<digits> = 0|1|...|9
+		<start_identifier> = <letters>|<underline>
+		<seq_letters> = <letters>|<letters><seq_letters>
+		<seq_underline> = _|_<seq_underline>
+		<seq_digits> = <digits>|<digits><seq_digits>
+		<seq_identifier> = <seq_digits>|<seq_letters>|<seq_underline>|<seq_digits><seq_identifier>|<seq_letters><seq_identifier>|<seq_underline><seq_identifier>
+		<identifier> = <start_identifier>|<start_identifier><seq_identifier>
+	c. Constants: 
+		1. int - rules:
+		<no_0_digits> = 1|...|9
+		<digits> = 0|<no_0_digits>
+		<signs> = +|-
+		<seq_number> = <digits>|<digits><seq_number>
+		<u_int> = <digits>|<no_0_digits><seq_number>
+		<int> = <u_int>|<signs><no_0_digits>|<signs><u_int>
+		2. string - rules:
+		<characters> = a|b|...|z|A|B|...|Z|0|1|...|9|space|,|.|?|!|_|'|-|+|/|*|;|(|)|{|}|[|]|@|#|$|%|^|&|`|~
+		<seq_characters> = <characters>|<characters><seq_characters>
+		<string> = "<seq_characters>"|"";
+		3. array - rules:
+		<type> = int|string
+		<no_0_u_int> = <no_0_digits>|<no_0_digits><seq_number>
+		<array> = <identifier>[<no_0_u_int>]
