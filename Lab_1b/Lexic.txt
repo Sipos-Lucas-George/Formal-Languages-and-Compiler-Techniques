@@ -4,7 +4,7 @@ Alphabet:
 	c. digits: 0-9
 Lexic:
 	a. Symbols representing:
-		- operators: + - / * ** = == < > <= >=
+		- operators: + - / * ** % = == < > <= >=
 		- separators: ( ) [ ] { } , ; space
 		- reserved word: int string read write if elif else for exit max
 	b. Identifiers:

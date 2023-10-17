@@ -1,6 +1,6 @@
 <seq_identifiers> ::= <identifier>|<array>|<identifier>,<seq_identifier>|<array>,<seq_identifier>
 <declaration> ::= <type>space<seq_identifiers>;
-<operation> ::= +|-|/|*|**
+<operation> ::= +|-|/|*|**|%
 <expression_int> ::= <int>|<array_index>|<max>|<int><operation><expression_int>|<array_index><operation><expression_int>|<max><operation><expression_int>
 <max> ::= max(<expression_int>,<expression_int>)
 <expression_string> ::= <string>|<string>+<expression_string>
