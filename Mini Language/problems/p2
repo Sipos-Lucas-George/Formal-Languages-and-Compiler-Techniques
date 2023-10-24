@@ -1,0 +1,20 @@
+int a, i;
+read(a);
+if (a < 2) {
+    write("Not prime");
+    exit(0);
+} elif (a == 2) {
+    write("Prime");
+    exit(0);
+} elif (a % 2 == 0) {
+    write("Not prime");
+    exit(0);
+} else {
+    for (i = 3; i*i <= a; ++i) {
+        if (a % i == 0){
+           write("Not prime");
+            exit(0);
+        }
+    }
+    write("Prime");
+}
