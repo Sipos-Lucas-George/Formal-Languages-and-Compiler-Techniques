@@ -1,0 +1,29 @@
+Implemented a HashTable that has a fixed capacity, known size and the data is stored in a list of lists.
+
+Built-in functions implemented:
+	1. __len__ - returning the number of elements in the hash table
+	2. __geitem__ - return a list if only one index is given or return the element if 2 indexes are given
+	3. __str__ - returns the has table as a string
+
+Private functions implemented:
+	1. __hash(key) - return the hash of that key and there are multiple cases:
+		a. if is anything but a string than it is converted to string 
+		b. if the key converted to string was less than 0 than the minus is converted to "a"
+		c. if the key is a string is still converted to string
+	After a/b/c the key goes through loop (index, char) with multiple cases:
+		a. if char is "_" then add to hash 30*index
+		b. if char is a-z or A-Z then add to hash (ASCII code of char - ASCII code of ("a" | "A")) * index
+		c. if char is 0-9 than add to hash (ASCII code of char - ASCII code of "0") * index
+	After the loop is done the functions returns hash % capacity
+	
+Public functions implemented:
+	1. add(elem) - increases the size, calculates __hash(elem), then there are 2 cases:
+		a. if there is no element in the list of that hash, than add it
+		b. if there is an element, then search to see if the element we are adding exists, if it does then decrease size and return position and if it doesn't exist than add it and return position
+	2. find(elem) - calculates __hash(elem), then there are 2 cases:
+		a. if the list of that hash is empty, then return NULL_PAIR (which is declared "static" as [-1, -1])
+		b. if the list of that hash is not empty, then search in that list the element, if found return position and if not found return NULL_PAIR
+	3. remove(elem) - decreases the size, calculates __hash(elem), then same as find, but if found return True and if not found increases the size and return False
+	4. size() - return size
+	5. is_empty() - return True if size is 0 else returns False
+	6. get_all() - returns data which is the hash table
