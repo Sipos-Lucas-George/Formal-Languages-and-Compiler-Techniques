@@ -1,4 +1,4 @@
-SIZE = 100
+SIZE = 1000
 NULL_PAIR = [-1, -1]
 
 
@@ -15,7 +15,8 @@ class HashTable:
         return self.__data[item]
 
     def __str__(self):
-        return str(self.__data)
+        return f"{'Position':<15} Value\n" + "\n".join([f"{str(entry[0]):15} {entry[1]}"
+                                                        for entry in self.get_as_list()])
 
     def __hash(self, key):
         key = str(key)
@@ -83,25 +84,11 @@ class HashTable:
     def get_all(self):
         return self.__data
 
-
-# h = HashTable()
-# print(h.add("123" + '1'))
-# print(h.add("123"))
-# print(h.add(123))
-# print(h.add(-123))
-# print(h, end="\n\n")
-# print(h.find(123))
-# print(h.find(-123))
-# print(h.find("-123"))
-# print(h.find("123"))
-# print(h, end="\n\n")
-# print(h.remove("1"))
-# # print(h.remove(123))
-# print(h.remove("123"))
-# print(h)
-# print(h.add(123))
-# print(h)
-# print(len(h))
-# print(h.size())
-# print(h.get_all())
-# print(h.is_empty())
+    def get_as_list(self):
+        result = []
+        for index_hash, item_list in enumerate(self.__data):
+            if len(item_list) == 0:
+                continue
+            for index_position, item in enumerate(item_list):
+                result.append([[index_hash, index_position], item])
+        return result

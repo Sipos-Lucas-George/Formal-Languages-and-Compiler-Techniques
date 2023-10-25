@@ -10,7 +10,7 @@ if (a < 2) {
     write("Not prime");
     exit(0);
 } else {
-    for (i = 3; i*i <= a; ++i) {
+    for (i = 3; i*i <= a; i = i + 1) {
         if (a % i == 0){
            write("Not prime");
             exit(0);

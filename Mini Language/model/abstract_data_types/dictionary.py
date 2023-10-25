@@ -1,24 +1,15 @@
 class Dictionary:
     def __init__(self):
-        self.__data = {}
+        self.__data = []
 
     def __len__(self):
         return len(self.__data)
 
-    def __setitem__(self, key, value):
-        self.__data[key] = value
-
     def __getitem__(self, item):
         return self.__data[item]
 
-    def __iter__(self):
-        self.__iteration_items = list(self.__data.items())
-        self.__iteration_index = 0
-        return self
+    def __str__(self):
+        return f"{'Index':<15} {'Value'}\n" + '\n'.join([f"{str(entry[1]):<15} {entry[0]}" for entry in self.__data])
 
-    def __next__(self):
-        if self.__iteration_index < len(self.__iteration_items):
-            item = self.__iteration_items[self.__iteration_index]
-            self.__iteration_index += 1
-            return item
-        raise StopIteration
+    def add(self, token, index):
+        self.__data.append((token, index))
