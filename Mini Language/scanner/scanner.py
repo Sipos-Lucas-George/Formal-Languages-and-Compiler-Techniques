@@ -1,7 +1,7 @@
 import os
 import re
 from model.abstract_data_types.hash_table import HashTable
-from model.abstract_data_types.dictionary import Dictionary
+from model.abstract_data_types.list import List
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -15,7 +15,7 @@ class Scanner:
             self.__symbols = [line.strip() for line in file.readlines()]
         self.__symbol_table_identifier = HashTable()
         self.__symbol_table_constant = HashTable()
-        self.__program_internal_form = Dictionary()
+        self.__program_internal_form = List()
         with open(problem_path) as file:
             self.__problem_text = file.readlines()
         self.__scan()
@@ -30,7 +30,7 @@ class Scanner:
             lexemes = self.sequence_to_lexemes(aux_line)
             for lexeme in lexemes:
                 if lexeme in self.__symbols:
-                    self.__program_internal_form.add(lexeme, 0)
+                    self.__program_internal_form.add(lexeme, -1)
                 elif re.match("^[a-zA-Z_]\w*$", lexeme):
                     index_id = self.__symbol_table_identifier.add(lexeme)
                     self.__program_internal_form.add(lexeme, index_id)
@@ -42,6 +42,10 @@ class Scanner:
                     error = f"Lexical Error! Line {index + 1} Col {index_error + 1}\n"
                     error += self.__problem_text[index][:-1] + "\n"
                     error += " " * index_error + "^" * len(lexeme)
+                    break
+            else:
+                continue
+            break
         self.write_to_file_st_pif(error)
 
     def write_to_file_st_pif(self, error):

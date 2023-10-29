@@ -11,5 +11,5 @@ P3 = os.getenv("P3")
 P4 = os.getenv("P4")
 
 if __name__ == "__main__":
-    Scanner(P4)
+    Scanner(P2)
 

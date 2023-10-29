@@ -1,4 +1,4 @@
-class Dictionary:
+class List:
     def __init__(self):
         self.__data = []
 
