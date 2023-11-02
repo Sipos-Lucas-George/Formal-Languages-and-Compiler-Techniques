@@ -6,13 +6,13 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-PATH_SYMBOLS = os.getenv("PATH_SYMBOLS")
+PATH_TOKENS = os.getenv("PATH_TOKENS")
 
 
 class Scanner:
     def __init__(self, problem_path: str):
-        with open(PATH_SYMBOLS) as file:
-            self.__symbols = [line.strip() for line in file.readlines()]
+        with open(PATH_TOKENS) as file:
+            self.__tokens = [line.strip() for line in file.readlines()]
         self.__symbol_table_identifier = HashTable()
         self.__symbol_table_constant = HashTable()
         self.__program_internal_form = List()
@@ -29,7 +29,7 @@ class Scanner:
 
             lexemes = self.sequence_to_lexemes(aux_line)
             for lexeme in lexemes:
-                if lexeme in self.__symbols:
+                if lexeme in self.__tokens:
                     self.__program_internal_form.add(lexeme, -1)
                 elif re.match("^[a-zA-Z_]\w*$", lexeme):
                     index_id = self.__symbol_table_identifier.add(lexeme)
