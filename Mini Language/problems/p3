@@ -1,3 +1,4 @@
+int b = -1;
 int a[100], i;
 for (i=0; i <= 99; i = i + 1){
     read(a[i]);

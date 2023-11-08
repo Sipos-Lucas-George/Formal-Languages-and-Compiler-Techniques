@@ -1,6 +1,7 @@
 import os
 
 from scanner.scanner import Scanner
+from finite_automata.finite_automata import FiniteAutomata
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -12,4 +13,4 @@ P4 = os.getenv("P4")
 
 if __name__ == "__main__":
     Scanner(P2)
-
+    # FiniteAutomata().secrete_program()

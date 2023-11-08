@@ -2,6 +2,7 @@ import os
 import re
 from model.abstract_data_types.hash_table import HashTable
 from model.abstract_data_types.list import List
+from finite_automata.finite_automata import FiniteAutomata
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -16,6 +17,7 @@ class Scanner:
         self.__symbol_table_identifier = HashTable()
         self.__symbol_table_constant = HashTable()
         self.__program_internal_form = List()
+        self.__finite_automata = FiniteAutomata()
         with open(problem_path) as file:
             self.__problem_text = file.readlines()
         self.__scan()
@@ -28,13 +30,15 @@ class Scanner:
             aux_line = line.strip()
 
             lexemes = self.sequence_to_lexemes(aux_line)
+            lexemes = self.concatenate_signed_integers(lexemes)
             for lexeme in lexemes:
+                verify_by_fa = self.__finite_automata.verify_lexeme(lexeme)
                 if lexeme in self.__tokens:
                     self.__program_internal_form.add(lexeme, -1)
-                elif re.match("^[a-zA-Z_]\w*$", lexeme):
+                elif verify_by_fa == "IDENTIFIER":
                     index_id = self.__symbol_table_identifier.add(lexeme)
                     self.__program_internal_form.add(lexeme, index_id)
-                elif re.match("^((\d|[1-9]\d*)|(\"[^\"]*\"))$", lexeme):
+                elif verify_by_fa == "INTEGER" or re.match("^(\"[^\"]*\")$", lexeme):
                     index_id = self.__symbol_table_constant.add(lexeme)
                     self.__program_internal_form.add(lexeme, index_id)
                 else:
@@ -54,6 +58,21 @@ class Scanner:
         with open("ST.out", "w") as file:
             file.write("IDENTIFIERS:\n" + str(self.__symbol_table_identifier) + "\n\nCONSTANTS:\n" +
                        str(self.__symbol_table_constant))
+
+    def concatenate_signed_integers(self, lexemes):
+        i = 0
+        result = []
+        parentheses = ["]", ")", "}"]
+        while i < len(lexemes):
+            if (lexemes[i] == "+" or lexemes[i] == "-") and (
+                    i == 0 or (i != 0 and lexemes[i - 1] in self.__tokens)) and i + 1 < len(lexemes) \
+                    and re.match("^(\d|[1-9]\d*)$", lexemes[i + 1]) and lexemes[i - 1] not in parentheses:
+                result.append(lexemes[i] + lexemes[i + 1])
+                i += 2
+            else:
+                result.append(lexemes[i])
+                i += 1
+        return result
 
     @staticmethod
     def sequence_to_lexemes(sequence: str) -> list[str]:
