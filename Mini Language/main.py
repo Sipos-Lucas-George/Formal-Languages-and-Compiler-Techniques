@@ -3,6 +3,7 @@ import os
 from scanner.scanner import Scanner
 from finite_automata.finite_automata import FiniteAutomata
 from dotenv import load_dotenv
+from parser.grammar import Grammar
 
 load_dotenv()
 
@@ -14,3 +15,9 @@ P4 = os.getenv("P4")
 if __name__ == "__main__":
     Scanner(P2)
     # FiniteAutomata().secrete_program()
+    g = Grammar()
+    print(g.cfg_check())
+    g.print_non_terminals()
+    g.print_terminals()
+    g.print_productions()
+    g.print_productions_for_non_terminal("statement")
