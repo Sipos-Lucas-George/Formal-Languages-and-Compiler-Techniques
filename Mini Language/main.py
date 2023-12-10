@@ -2,6 +2,7 @@ import os
 
 from scanner.scanner import Scanner
 from finite_automata.finite_automata import FiniteAutomata
+from parser.parser import Parser
 from dotenv import load_dotenv
 from parser.grammar import Grammar
 
@@ -21,3 +22,8 @@ if __name__ == "__main__":
     g.print_terminals()
     g.print_productions()
     g.print_productions_for_non_terminal("statement")
+    p = Parser(g)
+    p.build_first_sets()
+    p.compute_follow_sets()
+    p.print_first_sets()
+    p.print_follow_sets()

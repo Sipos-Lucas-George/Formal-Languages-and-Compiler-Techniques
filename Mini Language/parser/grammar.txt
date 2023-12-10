@@ -1,5 +1,6 @@
-program composed_stmt statement declaration assign_stmt io_stmt if_stmt for_stmt exit_stmt type seq_identifiers identifier array start_identifier letters no_0_u_int_const no_0_digits seq_digits digits seq_identifier seq_letters seq_underline expression expression_int expression_string int_const array_index max operation u_int_const signs string_const seq_characters characters read_stmt write_stmt seq_read seq_write seq_expression condition elif_stmt relation
-epsilon ; int string , _ [ ] ( ) { } 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z = + - / * % " . ? ! ' @ # $ ^ & ` ~ read write if elif else > < <= >= == for exit
+program
+program composed_stmt statement declaration assign_stmt io_stmt if_stmt for_stmt exit_stmt type seq_identifiers identifier array start_identifier letters no_0_u_int_const no_0_digits seq_digits digits seq_identifier seq_letters seq_underline expression expression_int expression_string int_const array_index max_func operation u_int_const signs string_const seq_characters characters read_stmt write_stmt seq_read seq_write seq_expression condition elif_stmt relation
+epsilon ; int string , _ [ ] ( ) { } 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z = + - / * % " . ? ! ' @ # $ ^ & ` ~ read write if elif else > < <= >= == for exit max
 program -> composed_stmt
 program -> epsilon
 composed_stmt -> statement
@@ -106,10 +107,10 @@ expression -> expression_int
 expression -> expression_string
 expression_int -> int_const
 expression_int -> array_index
-expression_int -> max
+expression_int -> max_func
 expression_int -> int_const operation expression_int
 expression_int -> array_index operation expression_int
-expression_int -> max operation expression_int
+expression_int -> max_func operation expression_int
 int_const -> u_int_const
 int_const -> signs no_0_digits
 int_const -> signs u_int_const
@@ -118,7 +119,7 @@ u_int_const -> no_0_digits seq_digits
 signs -> +
 signs -> -
 array_index -> identifier [ u_int_const ]
-max -> max ( expression_int , expression_int )
+max_func -> max ( expression_int , expression_int )
 operation -> +
 operation -> -
 operation -> /
