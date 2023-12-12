@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-PATH_GRAMMAR = os.getenv("PATH_GRAMMAR")
+PATH_GRAMMAR = os.getenv("PATH_GRAMMAR1")
 
 
 class Grammar:
