@@ -1,5 +1,6 @@
 from collections import defaultdict
 from parser.grammar import Grammar
+from model.abstract_data_types.parse_tree import ParseTree
 
 
 class Parser:
@@ -7,6 +8,8 @@ class Parser:
         self.__grammar = grammar
         self.__first_sets = defaultdict(set)
         self.__follow_sets = defaultdict(set)
+        self.__parsing_table = {}
+        self.__parse_tree = ParseTree()
 
     def print_first_sets(self):
         for key, value in self.__first_sets.items():
@@ -15,6 +18,10 @@ class Parser:
     def print_follow_sets(self):
         for key, value in self.__follow_sets.items():
             print(f"{str(key):<20}", *sorted(list(value)))
+
+    def print_parsing_table(self):
+        for key, value in self.__parsing_table.items():
+            print(f"{str(key):<30}", value)
 
     def build_first_sets(self):
         while True:
@@ -69,3 +76,54 @@ class Parser:
 
             if prev_follow_sets == self.__follow_sets:
                 break
+
+    def compute_parsing_table(self):
+        i = 0
+        terminals = self.__grammar.get_terminals()
+        for non_terminal, production_rules in self.__grammar.get_productions().items():
+            for production_rule in production_rules:
+                i += 1
+                if production_rule[0] == 'epsilon':
+                    for follow in self.__follow_sets[non_terminal]:
+                        self.__parsing_table[(non_terminal, follow)] = (production_rule, i)
+                else:
+                    if production_rule[0] in terminals:
+                        self.__parsing_table[(non_terminal, production_rule[0])] = (production_rule, i)
+                        continue
+                    for first in self.__first_sets.get(non_terminal, production_rule[0]):
+                        if first == 'epsilon':
+                            continue
+                        self.__parsing_table[(non_terminal, first)] = (production_rule, i)
+
+    def parse(self, input_string):
+        terminals = self.__grammar.get_terminals()
+        stack = [self.__grammar.get_start_symbol()]
+
+        while stack:
+            top_symbol = stack[-1]
+            next_input_symbol = input_string[0]
+
+            if top_symbol in terminals or top_symbol == '$':
+                if top_symbol == next_input_symbol:
+                    stack.pop()
+                    input_string = input_string[1:]
+                else:
+                    return f"Error the program broke at {next_input_symbol} and {input_string}"
+            elif top_symbol not in terminals:
+                if (top_symbol, next_input_symbol) in self.__parsing_table:
+                    production_rule = self.__parsing_table[(top_symbol, next_input_symbol)][0]
+                    stack.pop()
+                    stack.extend(reversed(production_rule))
+                else:
+                    return f"Error the program broke at {next_input_symbol} and {input_string}"
+            else:
+                return f"Error the program broke at {next_input_symbol} and {input_string}"
+
+        if not stack and not input_string:
+            return "Parsing successful!"
+        else:
+            return "Error the program broke at input string or stack"
+
+    @staticmethod
+    def error():
+        print("Error in parsing..change later")

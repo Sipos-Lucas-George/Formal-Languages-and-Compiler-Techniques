@@ -25,5 +25,8 @@ if __name__ == "__main__":
     p = Parser(g)
     p.build_first_sets()
     p.compute_follow_sets()
+    p.compute_parsing_table()
     p.print_first_sets()
     p.print_follow_sets()
+    p.print_parsing_table()
+    print(p.parse([x for x in "xxyzza"]))

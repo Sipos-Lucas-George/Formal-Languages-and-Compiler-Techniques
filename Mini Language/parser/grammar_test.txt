@@ -1,0 +1,8 @@
+S'
+S' S Y
+a z y x
+S' -> S
+S -> x Y z S
+S -> a
+Y -> x Y z
+Y -> y
