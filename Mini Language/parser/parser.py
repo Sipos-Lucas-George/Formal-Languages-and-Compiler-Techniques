@@ -23,6 +23,9 @@ class Parser:
         for key, value in self.__parsing_table.items():
             print(f"{str(key):<30}", value)
 
+    def print_parse_tree(self):
+        print(self.__parse_tree)
+
     def build_first_sets(self):
         while True:
             prev_first_sets = {key: value.copy() for key, value in self.__first_sets.items()}
@@ -67,7 +70,7 @@ class Parser:
                                 self.__follow_sets[symbol].update(self.__follow_sets[left])
                             else:
                                 next_symbols_first = set()
-                                for s in right[j + 1:]:
+                                for s in right[j + 1:j + 2]:
                                     next_symbols_first.update(self.__first_sets[s]
                                                               if s in non_terminals else s)
                                 if "epsilon" in next_symbols_first:
@@ -97,23 +100,26 @@ class Parser:
 
     def parse(self, input_string):
         terminals = self.__grammar.get_terminals()
-        stack = [self.__grammar.get_start_symbol()]
+        stack = [(self.__grammar.get_start_symbol(), 0)]
 
-        while stack:
+        while stack and input_string:
             top_symbol = stack[-1]
             next_input_symbol = input_string[0]
 
-            if top_symbol in terminals or top_symbol == '$':
+            if top_symbol in terminals:
                 if top_symbol == next_input_symbol:
                     stack.pop()
                     input_string = input_string[1:]
                 else:
                     return f"Error the program broke at {next_input_symbol} and {input_string}"
-            elif top_symbol not in terminals:
-                if (top_symbol, next_input_symbol) in self.__parsing_table:
-                    production_rule = self.__parsing_table[(top_symbol, next_input_symbol)][0]
+            elif top_symbol[0] not in terminals:
+                if (top_symbol[0], next_input_symbol) in self.__parsing_table:
+                    production_rule = self.__parsing_table[(top_symbol[0], next_input_symbol)][0][::-1]
                     stack.pop()
-                    stack.extend(reversed(production_rule))
+                    parent = self.__parse_tree.get_parent(list(top_symbol))
+                    for symbol in production_rule:
+                        stack.append(symbol if symbol in terminals else (symbol, parent))
+                    self.__parse_tree.add(production_rule, parent)
                 else:
                     return f"Error the program broke at {next_input_symbol} and {input_string}"
             else:

@@ -3,13 +3,22 @@ class ParseTree:
         self.__index = 0
         self.__tree = {}
 
-    def add(self, symbol, parent: int):
-        self.__index += 1
-        if self.__index == 1:
-            self.__tree[1] = [symbol, 0, 0]
+    def add(self, symbols, parent: int):
+        if self.__index == 0:
+            self.__tree[1] = [symbols[0], 0, 0]
+            self.__index += 1
             return
-        self.__tree[self.__index] = [symbol, parent, self.__index - 1] if self.__tree[self.__index - 1][1] == parent \
-            else [symbol, parent, 0]
+        for i, symbol in enumerate(symbols):
+            self.__index += 1
+            self.__tree[self.__index] = [symbol, parent, self.__index - 1] if i != 0 \
+                else [symbol, parent, 0]
+
+    def get_parent(self, top_symbol):
+        if self.__index == 0:
+            return 0
+        for index, element in self.__tree.items():
+            if element[:2] == top_symbol:
+                return index
 
     def clear(self):
         self.__index = 0
@@ -22,3 +31,4 @@ class ParseTree:
             for value in values:
                 result += f"{str(value):<20}"
             result += "\n"
+        return result

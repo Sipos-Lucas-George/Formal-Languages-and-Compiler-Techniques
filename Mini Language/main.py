@@ -30,3 +30,4 @@ if __name__ == "__main__":
     p.print_follow_sets()
     p.print_parsing_table()
     print(p.parse([x for x in "xxyzza"]))
+    p.print_parse_tree()
