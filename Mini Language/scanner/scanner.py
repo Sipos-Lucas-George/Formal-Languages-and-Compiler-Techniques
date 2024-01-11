@@ -22,6 +22,9 @@ class Scanner:
             self.__problem_text = file.readlines()
         self.__scan()
 
+    def get_pif(self):
+        return [item[0] for item in self.__program_internal_form]
+
     def __scan(self):
         error = "Lexically Correct"
         for index, line in enumerate(self.__problem_text):
@@ -37,10 +40,10 @@ class Scanner:
                     self.__program_internal_form.add(lexeme, -1)
                 elif verify_by_fa == "IDENTIFIER":
                     index_id = self.__symbol_table_identifier.add(lexeme)
-                    self.__program_internal_form.add(lexeme, index_id)
+                    self.__program_internal_form.add("ID", index_id)
                 elif verify_by_fa == "INTEGER" or re.match("^(\"[^\"]*\")$", lexeme):
                     index_id = self.__symbol_table_constant.add(lexeme)
-                    self.__program_internal_form.add(lexeme, index_id)
+                    self.__program_internal_form.add("CONST", index_id)
                 else:
                     index_error = self.__problem_text[index].find(lexeme)
                     error = f"Lexical Error! Line {index + 1} Col {index_error + 1}\n"

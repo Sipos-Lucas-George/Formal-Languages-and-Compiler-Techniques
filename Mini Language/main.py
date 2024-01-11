@@ -12,9 +12,10 @@ P1 = os.getenv("P1")
 P2 = os.getenv("P2")
 P3 = os.getenv("P3")
 P4 = os.getenv("P4")
+P5 = os.getenv("P5")
 
 if __name__ == "__main__":
-    Scanner(P2)
+    s = Scanner(P5)
     # FiniteAutomata().secrete_program()
     g = Grammar()
     print(g.cfg_check())
@@ -30,4 +31,5 @@ if __name__ == "__main__":
     p.print_follow_sets()
     p.print_parsing_table()
     print(p.parse([x for x in "xxyzza"]))
+    # print(p.parse(s.get_pif()))
     p.print_parse_tree()

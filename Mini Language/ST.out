@@ -1,13 +1,6 @@
 IDENTIFIERS:
 Position        Value
-[0, 0]          a
-[8, 0]          i
+[192, 0]        _Sicoe
 
 CONSTANTS:
 Position        Value
-[0, 0]          0
-[1, 0]          1
-[2, 0]          2
-[3, 0]          3
-[85, 0]         "Prime"
-[317, 0]        "Not prime"

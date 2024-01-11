@@ -1,0 +1,9 @@
+program
+program composed_stmt statement declaration type
+epsilon ; int ID
+program -> composed_stmt
+program -> epsilon
+composed_stmt -> statement
+statement -> declaration
+declaration -> type ID ;
+type -> int
